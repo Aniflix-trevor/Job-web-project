@@ -1,3 +1,5 @@
+const BASE_URL = "http://localhost:3000";
+
 document.addEventListener("DOMContentLoaded", () => getJobs());
 
 function getJobs() {
@@ -8,10 +10,10 @@ function getJobs() {
     },
   };
 
-  fetch("http://localhost:3000/jobs", options)
+  fetch(`${BASE_URL}/jobs`, options)
     .then((response) => response.json())
-    .then(renderJobs);
-  // .catch((err) => console.error(err));
+    .then(renderJobs)
+    .catch((err) => console.error(err));
 }
 
 function renderJobs(jobs) {
@@ -41,8 +43,47 @@ function renderJobs(jobs) {
     title.textContent = job.title;
     jobContent.appendChild(title);
 
+    // const location = document.createElement("p");
+    // location.classList.add("card-location");
+    // location.textContent = job.location;
+    // jobContent.appendChild(location);
+
+    const location = document.createElement("p");
+    location.textContent = `Location: ${job.location}`;
+    jobContent.appendChild(location);
+
+    const description = document.createElement("p");
+    description.textContent = job.description;
+    jobContent.appendChild(description);
+
     jobList.append(jobContent);
 
     jobListDiv.appendChild(jobList);
   });
 }
+
+const jobForm = document.querySelector("form");
+
+jobForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(jobForm);
+  const data = Object.fromEntries(formData);
+
+  const url = data.id ? `${BASE_URL}/jobs/${data.id}` : `${BASE_URL}/jobs`;
+
+  fetch(url, {
+    method: data.id ? "PATCH" : "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then(() => {
+      jobForm.reset();
+      getJobs();
+    })
+    .catch((err) => console.error(err));
+});
