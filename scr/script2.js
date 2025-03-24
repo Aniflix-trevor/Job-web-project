@@ -62,7 +62,7 @@ function renderJobs(jobs) {
   });
 }
 
-const jobForm = document.querySelector("form");
+const jobForm = document.querySelector("#job-form");
 
 jobForm.addEventListener("submit", (e) => {
   e.preventDefault();

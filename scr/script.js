@@ -43,6 +43,52 @@ function renderJobs(jobs) {
 
     jobList.append(jobContent);
 
+    const title = document.createElement("h3");
+    title.classList.add("card-title");
+    title.textContent = job.title;
+    jobContent.appendChild(title);
+
+    // const location = document.createElement("p");
+    // location.classList.add("card-location");
+    // location.textContent = job.location;
+    // jobContent.appendChild(location);
+
+    const location = document.createElement("p");
+    location.textContent = `Location: ${job.location}`;
+    jobContent.appendChild(location);
+
+    const description = document.createElement("p");
+    description.textContent = job.description;
+    jobContent.appendChild(description);
+
+    jobList.append(jobContent);
+
     jobListDiv.appendChild(jobList);
   });
 }
+
+const jobForm = document.querySelector("#job-form");
+
+jobForm.addEventListener("submit", (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(jobForm);
+  const data = Object.fromEntries(formData);
+
+  const url = data.id ? `${BASE_URL}/jobs/${data.id}` : `${BASE_URL}/jobs`;
+
+  fetch(url, {
+    method: data.id ? "PATCH" : "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+  })
+    .then((response) => response.json())
+    .then(() => {
+      jobForm.reset();
+      getJobs();
+    })
+    .catch((err) => console.error(err));
+});
