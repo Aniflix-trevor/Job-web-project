@@ -59,6 +59,12 @@ function renderJobs(jobs) {
     location.textContent = `Location: ${job.location}`;
     jobContent.appendChild(location);
 
+    const deleteButton = document.createElement("button");
+    deleteButton.textContent = "Delete";
+    deleteButton.classList.add("btn", "btn-danger");
+    deleteButton.addEventListener("click", () => deleteJob(job.id)); // Attach delete function
+    jobContent.appendChild(deleteButton);
+
     // const description = document.createElement("p");
     // description.textContent = job.description;
     // jobContent.appendChild(description);
