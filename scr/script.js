@@ -1,5 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => getJobs());
 
+document.getElementById("search").addEventListener("input", filterJobs);
+
+let allJobs = [];
+
 function getJobs() {
   const options = {
     method: "GET",
@@ -10,7 +14,10 @@ function getJobs() {
 
   fetch("http://localhost:3000/jobs", options)
     .then((response) => response.json())
-    .then(renderJobs);
+    .then((jobs) => {
+      allJobs = jobs;
+      renderJobs(jobs);
+    });
   // .catch((err) => console.error(err));
 }
 
@@ -43,11 +50,6 @@ function renderJobs(jobs) {
 
     jobList.append(jobContent);
 
-    const title = document.createElement("h3");
-    title.classList.add("card-title");
-    title.textContent = job.title;
-    jobContent.appendChild(title);
-
     // const location = document.createElement("p");
     // location.classList.add("card-location");
     // location.textContent = job.location;
@@ -57,9 +59,9 @@ function renderJobs(jobs) {
     location.textContent = `Location: ${job.location}`;
     jobContent.appendChild(location);
 
-    const description = document.createElement("p");
-    description.textContent = job.description;
-    jobContent.appendChild(description);
+    // const description = document.createElement("p");
+    // description.textContent = job.description;
+    // jobContent.appendChild(description);
 
     jobList.append(jobContent);
 
@@ -74,6 +76,8 @@ jobForm.addEventListener("submit", (e) => {
 
   const formData = new FormData(jobForm);
   const data = Object.fromEntries(formData);
+
+  const BASE_URL = "http://localhost:3000";
 
   const url = data.id ? `${BASE_URL}/jobs/${data.id}` : `${BASE_URL}/jobs`;
 
@@ -92,3 +96,13 @@ jobForm.addEventListener("submit", (e) => {
     })
     .catch((err) => console.error(err));
 });
+
+function filterJobs() {
+  const searchValue = document
+    .getElementById("search")
+    .value.toLocaleLowerCase();
+  const filteredJobs = allJobs.filter((job) =>
+    job.title.toLocaleLowerCase().includes(searchValue)
+  );
+  renderJobs(filteredJobs);
+}
