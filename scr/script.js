@@ -59,10 +59,18 @@ function renderJobs(jobs) {
     location.textContent = `Location: ${job.location}`;
     jobContent.appendChild(location);
 
+    const viewButton = document.createElement("button")
+    viewButton.textContent= "View"
+    viewButton.classList.add("btn", "btn-info", "m-1")
+       viewButton.setAttribute("data-bs-toggle", "modal");
+       viewButton.setAttribute("data-bs-target", "#jobDetailsModal");
+       viewButton.addEventListener("click",() => viewJob(job))
+       jobContent.appendChild(viewButton)
+
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.classList.add("btn", "btn-danger");
-    deleteButton.addEventListener("click", () => deleteJob(job.id)); // Attach delete function
+    deleteButton.addEventListener("click", () => deleteJob(job.id));
     jobContent.appendChild(deleteButton);
 
     // const description = document.createElement("p");
@@ -111,4 +119,30 @@ function filterJobs() {
     job.title.toLocaleLowerCase().includes(searchValue)
   );
   renderJobs(filteredJobs);
+}
+
+function deleteJob(jobId) {
+  const options = {
+    method: "DELETE",
+  };
+
+  fetch(`http://localhost:3000/jobs/${jobId}`, options)
+    .then((response) => response.json())
+    .then(() => {
+      getJobs();
+    })
+    .catch((err) => console.error(err));
+}
+
+function viewJob(job){
+  document.getElementById("job-title").textContent = job.title;
+  document.getElementById(
+    "job-company"
+  ).textContent = `Company: ${job.company}`;
+  document.getElementById(
+    "job-location"
+  ).textContent = `Location: ${job.location}`;
+  document.getElementById("job-salary").textContent = `Salary: $${job.salary}`;
+  document.getElementById("job-description").textContent = job.description;
+  document.getElementById("job-image").src = job.image;
 }
