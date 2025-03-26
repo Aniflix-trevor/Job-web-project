@@ -67,6 +67,15 @@ function renderJobs(jobs) {
        viewButton.addEventListener("click",() => viewJob(job))
        jobContent.appendChild(viewButton)
 
+       const applyButton = document.createElement("button");
+       applyButton.textContent = "Apply";
+       applyButton.classList.add("btn", "btn-success", "m-1");
+       applyButton.setAttribute("data-bs-toggle", "modal");
+       applyButton.setAttribute("data-bs-target", "#applyModal");
+       applyButton.addEventListener("click", () => openApplyForm(job));
+       jobContent.appendChild(applyButton);
+
+
     const deleteButton = document.createElement("button");
     deleteButton.textContent = "Delete";
     deleteButton.classList.add("btn", "btn-danger");
@@ -146,3 +155,32 @@ function viewJob(job){
   document.getElementById("job-description").textContent = job.description;
   document.getElementById("job-image").src = job.image;
 }
+
+function openApplyForm(job) {
+  document.getElementById("job-id").value = job.id;
+}
+
+document
+  .getElementById("applyForm")
+  .addEventListener("submit", async function (event) {
+    event.preventDefault();
+
+    const formData = new FormData();
+    formData.append("jobId", document.getElementById("job-id").value);
+    formData.append("name", document.getElementById("applicant-name").value);
+    formData.append("email", document.getElementById("applicant-email").value);
+    formData.append("resume", document.getElementById("resume").files[0]);
+
+    try {
+      const response = await fetch("http://localhost:3000/apply", {
+        method: "POST",
+        body: formData,
+      });
+
+      const result = await response.json();
+      alert(result.message);
+      document.getElementById("applyForm").reset();
+    } catch (error) {
+      console.error("Error applying:", error);
+    }
+  });
