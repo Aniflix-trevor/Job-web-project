@@ -36,11 +36,8 @@
               <li class="nav-item">
                 <a class="nav-link active" aria-current="page" href="#">Home</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
+
               <li>
-                
                 <button
                   type="button"
                   class="btn"
@@ -50,7 +47,6 @@
                   Add
                 </button>
 
-                
                 <div
                   class="modal fade"
                   id="exampleModal"
@@ -62,7 +58,7 @@
                     <div class="modal-content">
                       <div class="modal-header">
                         <h1 class="modal-title fs-5" id="exampleModalLabel">
-                          Modal title
+                          Add Job
                         </h1>
                         <button
                           type="button"
@@ -133,39 +129,6 @@
                   </div>
                 </div>
               </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  href="#"
-                  data-bs-toggle="offcanvas"
-                  data-bs-target="#offcanvasWithBothOptions"
-                  aria-controls="offcanvasWithBothOptions"
-                  >Filter</a
-                >
-              </li>
-
-              <li class="nav-item dropdown">
-                <a
-                  class="nav-link dropdown-toggle"
-                  href="#"
-                  role="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
-                >
-                  Dropdown
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="#">Action</a></li>
-                  <li><a class="dropdown-item" href="#">Another action</a></li>
-                  <li><hr class="dropdown-divider" /></li>
-                  <li>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                  </li>
-                </ul>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-              </li>
             </ul>
             <form class="d-flex" role="search">
               <input
@@ -175,9 +138,6 @@
                 placeholder="Search"
                 aria-label="Search"
               />
-              <button class="btn btn-outline-success" type="submit">
-                Search
-              </button>
             </form>
           </div>
         </div>
@@ -186,7 +146,7 @@
 
     <main>
       <div id="card" class="card, col" style="width: 18rem"></div>
-      
+
       <div
         class="modal fade"
         id="jobDetailsModal"
@@ -230,36 +190,60 @@
         </div>
       </div>
 
-      
-<div id="applyModal" class="modal fade" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Apply for Job</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      <div id="applyModal" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Apply for Job</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form id="applyForm">
+                <input type="hidden" id="job-id" name="jobId" />
+                <div class="mb-3">
+                  <label for="applicant-name" class="form-label"
+                    >Your Name</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="applicant-name"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="applicant-email" class="form-label"
+                    >Your Email</label
+                  >
+                  <input
+                    type="email"
+                    class="form-control"
+                    id="applicant-email"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="resume" class="form-label">Upload Resume</label>
+                  <input
+                    type="file"
+                    class="form-control"
+                    id="resume"
+                    accept=".pdf,.doc,.docx"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  Submit Application
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="modal-body">
-        <form id="applyForm">
-          <input type="hidden" id="job-id" name="jobId">
-          <div class="mb-3">
-            <label for="applicant-name" class="form-label">Your Name</label>
-            <input type="text" class="form-control" id="applicant-name" required>
-          </div>
-          <div class="mb-3">
-            <label for="applicant-email" class="form-label">Your Email</label>
-            <input type="email" class="form-control" id="applicant-email" required>
-          </div>
-          <div class="mb-3">
-            <label for="resume" class="form-label">Upload Resume</label>
-            <input type="file" class="form-control" id="resume" accept=".pdf,.doc,.docx" required>
-          </div>
-          <button type="submit" class="btn btn-primary">Submit Application</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
-
     </main>
 
     <script
